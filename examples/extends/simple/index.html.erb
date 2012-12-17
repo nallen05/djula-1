@@ -1,0 +1,12 @@
+
+The stuff in the extending template above the "extends" form shows up AFTER the base template's header, ABOVE the first "block" form
+
+<% djula_extends 'base.html.erb' %>
+
+no one will see this
+
+<% djula_block 'a' %>
+This is the A block EXTENDED by <a href='/index.html.erb'>/index.html.erb</a>, not the original A block defined by <a href='/base.html.erb'>/index.html.erb</a>.
+<% djula_endblock 'a' %>
+
+Noe one will see this.

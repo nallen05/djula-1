@@ -1,0 +1,27 @@
+<pre>
+This is the stuff at the beginning of the base template.
+(FYI extended templates are first-class citizens and can be rendered just like the templates that extend them: <a href='/base.html'>/base.html</a>)
+(says base <a href='/base.html.erb'>/base.html.erb</a>)
+
+<% djula_block 'a' %>
+This is the <a href='/base.html.erb'>/base.html.erb</a> A block. No one ever extends 'a'.
+<% djula_endblock 'a' %>
+
+<% djula_block 'b' %>
+This is the <a href='/base.html.erb'>/base.html.erb</a> B block.
+<% djula_endblock 'b' %>
+
+<% djula_block 'c' %>
+This is the <a href='/base.html.erb'>/base.html.erb</a> C block.
+<% djula_endblock 'c' %>
+
+<% djula_block 'd' %>
+This is the <a href='/base.html.erb'>/base.html.erb</a> D block.
+<% djula_endblock 'd' %>
+
+<% djula_block 'e' %>
+This is the <a href='/base.html.erb'>/base.html.erb</a> E block.
+<% djula_endblock 'e' %>
+
+This is the stuff at the bottom of the base template.
+</pre>

@@ -1,0 +1,30 @@
+The stuff in the extending template above the "extends" form shows up AFTER the base template's header, ABOVE the first "block" form.
+(FYI extended templates are first-class citizens and can be viewed no problem: <a href='/middle.html'>/middle.html</a>)
+(says in the-middle-of-the-chain <a href='/middle.html.erb'>/middle.html.erb</a>)
+
+<% djula_extends 'base.html.erb' %>
+
+no one will see this
+
+<% djula_block 'c' %>
+This is the <a href='/middle.html.erb'>/base.html.erb</a> C block. It extends <a href='/base.html.erb'>/base.html.erb</a> B block.
+<% djula_endblock 'c' %>
+
+<% djula_block 'd' %>
+This is the <a href='/middle.html.erb'>/middle.html.erb</a> D block. It gets overwritten by <a href='/index.html.erb'>/index.html.erb</a> B block.
+<% djula_endblock 'd' %>
+
+<% djula_block 'e' %>
+This is the <a href='/middle.html.erb'>/middle.html.erb</a> E block (it extends <a href='/index.html.erb'>/index.html.erb</a>'s E block). It has embedded E1 and E2 blocks.
+
+  <% djula_block 'e1' %>
+    This is the <a href='/middle.html.erb'>/middle.html.erb</a> E1 block.
+  <% djula_endblock 'e1' %>
+
+  <% djula_block 'e2' %>
+    This is the <a href='/middle.html.erb'>/middle.html.erb</a> E2 block.
+  <% djula_endblock 'e2' %>
+
+<% djula_endblock 'e' %>
+
+No one will see this.

@@ -1,0 +1,9 @@
+{
+  "routes" : {"/users/1" : "/user_info.html.erb", "/users/1/details" : "/user_detailed_info.html.erb"},
+
+  "template_folder" : "/Template/folder/path",
+  "templates_files": ["/path/to/a/template-file/A.html.erb","/path/to/a/template-file/B.html.erb", "/path/to/a/template-file/C.html.erb"],
+
+  "static_folder" : "/Static/folder/path",
+  "static_files" :  ["/path/to/a/static-file/AA.html.erb","/path/to/a/static-file/BB.html.erb", "/path/to/a/static-file/CC.html.erb"]
+}

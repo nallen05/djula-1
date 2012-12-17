@@ -1,0 +1,40 @@
+<html>
+  <head></head>
+  <body>
+	<h2>Routes</h2>
+	<% if (@routes.count == 0) %>
+	  No mock routes defined.
+	<% else %>
+      <table>
+	    <tr>
+	      <th>
+		    URL Pattern
+          </th>
+	      <th>
+            ...turns into:
+          </th>
+        </tr>
+        <% @routes.to_a.sort_by(&:first).each do |k,v| %>
+          <tr>
+            <td><a href='<%= k %>'><%= k %></a></td>
+            <td><a href='<%= v %>'><%= v %></a></td>
+        <% end %>
+      </table>
+    <% end %>
+	
+	<h2>Dynamic template files (folder: <%= @template_folder %>)</h2>
+	<ol>
+      <% @templates_files.each do |pn| %>
+	    <% template_key = pn[0...(0-'.erb'.length)] %>
+        <li><a href='<%= template_key %>'><%= template_key %></a></li>
+      <% end %>
+    </ol>
+
+	<h2>Static files (folder: <%= @static_folder %>)</h2>
+	<ol>
+      <% @static_files.each do |pn| %>
+        <li><a href='<%= pn %>'><%= pn %></a></li>
+      <% end %>
+    </ol>
+  </body>
+</html>

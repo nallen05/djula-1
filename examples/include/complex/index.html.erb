@@ -1,0 +1,14 @@
+<pre>
+
+In the main file:
+
+@foo: <%= @foo %>
+@bar: <%= @bar %>
+@baz: <%= @baz %>
+
+In the included template:
+
+<%= djula_include '/include_me.html.erb', 'foo' => 'a', 'bar' => 'c' %>
+
+Also, FYI you can include extended templates.
+</pre>
