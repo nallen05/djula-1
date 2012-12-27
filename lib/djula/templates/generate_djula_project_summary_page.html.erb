@@ -11,12 +11,16 @@
 		    URL Pattern
           </th>
 	      <th>
-            ...turns into:
+            ...
+          </th>
+	      <th>
+            turns into:
           </th>
         </tr>
         <% @routes.to_a.sort_by(&:first).each do |k,v| %>
           <tr>
             <td><a href='<%= k %>'><%= k %></a></td>
+            <td>...</td>
             <td><a href='<%= v %>'><%= v %></a></td>
         <% end %>
       </table>
