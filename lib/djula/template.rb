@@ -1,5 +1,4 @@
 require 'erb'
-require 'yaml'
 
 module Djula class Template
   
