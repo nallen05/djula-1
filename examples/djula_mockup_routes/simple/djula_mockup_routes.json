@@ -1,7 +1,4 @@
 {
-  "/users/1": "/user.html",
-  "/users/1/details": "/user_details.html",
-
-  "/users/2": "/user.html",
-  "/users/2/details": "/user_details.html"
+  "/users/*": "/user.html",
+  "/users/*/details": "/user_details.html"
 }

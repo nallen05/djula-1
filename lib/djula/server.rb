@@ -99,9 +99,32 @@ module Djula class Server
     return mockup_data    
   end
   
-  def match_route?(req_path) 
-   puts "TODO: IMPLEMENT ROUTES PATTERN MATCHING"
-   self.get_routes_from_file_system[req_path]
+  def match_route?(req_path)
+   rts = self.get_routes_from_file_system
+   tr_match = rts.keys.detect{|r| Server.match_route? r, req_path }
+   rts[tr_match]
+  end
+  
+  # Djula::Server.match_route? "/foo/bar.html", "/foo/bar.html"
+  # => 0 
+  #
+  # Djula::Server.match_route? "/foo/*.html", "/foo/bar.html" 
+  # => 0 
+  #
+  # Djula::Server.match_route? "/foo/*.html", "/foo/bar.pdf"
+  # => nil 
+  #
+  # Djula::Server.match_route? "/foo/*/*", "/foo/1/bar.html"
+  # => 0 
+  #
+  # Djula::Server.match_route? "/foo/*/*", "/foo/1/2/bar.html"
+  # => nil
+  
+  def self.match_route?(route,req_path)
+    req_path_without_fragment = req_path.split("#")[0]
+    req_path_without_query_or_fragment = req_path_without_fragment.split("?")[0]
+    rgxp = Regexp.new(route.split("*",-1).map{|s| Regexp.escape s}.join("[^/$]*") + "$")
+    rgxp =~  req_path_without_query_or_fragment
   end
   
   def get_routes_from_file_system
