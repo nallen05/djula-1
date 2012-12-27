@@ -1,4 +1,3 @@
-$:.push File.extend_path "../lib", __FILE__             # why?
 
 Gem::Specification.new do |gem|
   gem.name     = 'djula'
@@ -13,12 +12,7 @@ Gem::Specification.new do |gem|
   gem.test_files  = gem.files.grep %r{^spec/.*\.rb$}
   gem.require_paths = ["lib"]
 
-#  gem.add_dependency 'redis'
-
 #  gem.add_development_dependency 'bundler'
   gem.add_development_dependency 'minitest', '~> 3.0'
-#  gem.add_development_dependency 'mock_redis', '>= 0.5.2'
   gem.add_development_dependency 'rake'
-#  gem.add_development_dependency 'rb-inotify'
-#  gem.add_development_dependency 'rerun'
 end
