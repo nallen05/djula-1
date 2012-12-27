@@ -14,8 +14,8 @@ module Djula class Server
     @port = opts.fetch :port, 3001
     @static_folder =  opts.fetch :static_folder, @template_folder
 
-    @example_data_file_name = opts.fetch :example_data_file_name, "djula_example_data.json"
-    @example_routes_file_name = "/djula_example_routes.json"
+    @mockup_data_file_name = opts.fetch :mockup_data_file_name, "djula_mockup_data.json"
+    @mockup_routes_file_name = opts.fetch :mockup_routes_file_name, "djula_mockup_routes.json"
     
     @project_summary_page_template_key = File.dirname(File.expand_path(__FILE__)) + "/templates/generate_djula_project_summary_page.html"
     @project_summary_page_template_pathname = @project_summary_page_template_key + ".erb"
@@ -52,17 +52,17 @@ module Djula class Server
       
       # dynamic template
       elsif (@template = @compiled_template_folder.get(req.path))
-        resp.body = @template.render self.get_example_data_from_file_system(req.path)
+        resp.body = @template.render self.get_mockup_data_from_file_system(req.path)
         resp['Content-Type'] = WEBrick::HTTPUtils.mime_type @project_summary_page_template_key, WEBrick::HTTPUtils::DefaultMimeTypes
 
       # static content
       elsif (pn = @static_folder + "/"  + req.path ; File.exists?(pn))
          resp.body = File.read pn
          
-      # matches a route defined in djula_example_routes.json
+      # matches a route defined in djula_mockup_routes.json
       elsif (pn = self.match_route?(req.path))
         @template = @compiled_template_folder.get pn
-        resp.body = @template.render self.get_example_data_from_file_system(pn)
+        resp.body = @template.render self.get_mockup_data_from_file_system(pn)
 
       # oops
       else
@@ -80,9 +80,9 @@ module Djula class Server
     @compiled_template_folder.compile_templates
   end
   
-  def get_example_data_from_file_system(file_key)    
+  def get_mockup_data_from_file_system(file_key)    
 
-    example_data = {}
+    mockup_data = {}
 
     file_path = @template_folder + file_key
     file_subfolder_names = file_key.split("/").reject{|x| x.length == 0}[0...-1]
@@ -90,13 +90,13 @@ module Djula class Server
     look_in_folder = @template_folder
     ([""] + file_subfolder_names).each do |subfolder|
       look_in_folder = look_in_folder + "/" + subfolder
-      maybe_example_data_file = look_in_folder + "/" + @example_data_file_name
-      if File.exists?(maybe_example_data_file)
-        src = File.read maybe_example_data_file
-        (example_data = example_data.merge(JSON.parse(src))) if (src and (src.length > 0))
+      maybe_mockup_data_file = look_in_folder + "/" + @mockup_data_file_name
+      if File.exists?(maybe_mockup_data_file)
+        src = File.read maybe_mockup_data_file
+        (mockup_data = mockup_data.merge(JSON.parse(src))) if (src and (src.length > 0))
       end
     end 
-    return example_data    
+    return mockup_data    
   end
   
   def match_route?(req_path) 
@@ -108,7 +108,7 @@ module Djula class Server
     
     routes = {}
     
-    maybe_routes_path = @template_folder + @example_routes_file_name
+    maybe_routes_path = @template_folder + "/" + @mockup_routes_file_name
     if File.exists?(maybe_routes_path)
       src = File.read maybe_routes_path
       (routes = JSON.parse(src)) if (src and (src.length > 0))

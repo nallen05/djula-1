@@ -51,7 +51,7 @@ module Djula class TemplateFolder
    
   # private
   
-  attr_accessor :template_directory, :mockup_mode, :recognize_template_suffix, :recognize_example_data_pattern, :ignore_file_patterns, :asset_hash, :compiled_templates
+  attr_accessor :template_directory, :mockup_mode, :recognize_template_suffix, :ignore_file_patterns, :asset_hash, :compiled_templates
   
   # dealing with files
   
