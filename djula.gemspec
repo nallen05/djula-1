@@ -12,7 +12,9 @@ Gem::Specification.new do |gem|
   gem.test_files  = gem.files.grep %r{^spec/.*\.rb$}
 #  gem.require_paths = ["lib"]
 
-#  gem.add_development_dependency 'bundler'
+  gem.add_dependency 'json'
+
   gem.add_development_dependency 'minitest', '~> 3.0'
   gem.add_development_dependency 'rake'
+  #  gem.add_development_dependency 'bundler'  
 end

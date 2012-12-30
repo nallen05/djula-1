@@ -1,3 +1,9 @@
+PATH
+  remote: .
+  specs:
+    djula (0.0.0)
+      json
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -9,6 +15,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  json
-  minitest
+  djula!
+  minitest (~> 3.0)
   rake
