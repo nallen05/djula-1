@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
   gem.author   = 'Nick Allen'
   gem.email    = 'nick@ginzametrics.com'
 
-  gem.files       = `git ls-files -z`.split "\n"
+  gem.files       = `git ls-files -z`.split "\0"
   gem.executables = gem.files.grep(%r{^bin/}).map { |path| File.basename path }
   gem.test_files  = gem.files.grep %r{^spec/.*\.rb$}
 #  gem.require_paths = ["lib"]
