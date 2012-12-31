@@ -104,3 +104,7 @@ EXAMPLES
 9. examples/routes/simple
 
    simple demo showing that example routes can be specified using a "djula_example_routes.json" file
+
+10. examples/djula_mockup_do/setting_content_type
+
+   simple demo showing that you can use djula_mockup_do to manually set the content type of a template

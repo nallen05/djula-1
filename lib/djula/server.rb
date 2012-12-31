@@ -21,7 +21,10 @@ module Djula class Server
     @project_summary_page_template_pathname = @project_summary_page_template_key + ".erb"
     
     @compiled_template_folder = nil
-    @webrick_server = nil    
+    @webrick_server = nil
+
+    @current_http_request = nil    
+    @current_http_reponse = nil
   end
   
   def start
@@ -36,7 +39,11 @@ module Djula class Server
     }
 
     @webrick_server.mount_proc('/') {|req, resp|
-      self.compile_templates
+#      self.compile_templates
+
+      # so that they can be accessed from djula_mockup_do blocks
+      @current_http_request = req
+      @current_http_reponse = resp
       
       # project summary page
       if (req.path == "/")
@@ -47,13 +54,13 @@ module Djula class Server
           'static_folder' => @static_folder,
           'static_files' => Dir.glob("#{@static_folder}/**/*").map{|pn| pn[@static_folder.length..-1]}.sort
         }
+        resp['Content-Type'] = WEBrick::HTTPUtils.mime_type( @project_summary_page_template_key, WEBrick::HTTPUtils::DefaultMimeTypes)        
         resp.body = @compiled_template_folder.get(@project_summary_page_template_key).render template_vars
-        resp['Content-Type'] = WEBrick::HTTPUtils.mime_type( @project_summary_page_template_key, WEBrick::HTTPUtils::DefaultMimeTypes)       
       
       # dynamic template
       elsif (@template = @compiled_template_folder.get(req.path))
+        resp['Content-Type'] = WEBrick::HTTPUtils.mime_type req.path, WEBrick::HTTPUtils::DefaultMimeTypes        
         resp.body = @template.render self.get_mockup_data_from_file_system(req.path)
-        resp['Content-Type'] = WEBrick::HTTPUtils.mime_type @project_summary_page_template_key, WEBrick::HTTPUtils::DefaultMimeTypes
 
       # static content
       elsif (pn = @static_folder + "/"  + req.path ; File.exists?(pn))
@@ -62,6 +69,7 @@ module Djula class Server
       # matches a route defined in djula_mockup_routes.json
       elsif (pn = self.match_route?(req.path))
         @template = @compiled_template_folder.get pn
+        resp['Content-Type'] = WEBrick::HTTPUtils.mime_type req.path, WEBrick::HTTPUtils::DefaultMimeTypes
         resp.body = @template.render self.get_mockup_data_from_file_system(pn)
 
       # oops
@@ -75,7 +83,7 @@ module Djula class Server
   end
   
   def compile_templates
-    @compiled_template_folder = TemplateFolder.new @template_folder
+    @compiled_template_folder = TemplateFolder.new @template_folder, :mockup_server => self
     @compiled_template_folder.update_asset_hash(@project_summary_page_template_pathname => File.read(@project_summary_page_template_pathname))
     @compiled_template_folder.compile_templates
   end
@@ -142,6 +150,6 @@ module Djula class Server
 
   # private
 
-  attr_accessor :port, :webrick_server, :template_folder, :compiled_template_folder, :static_folder
+  attr_accessor :port, :webrick_server, :template_folder, :compiled_template_folder, :static_folder, :current_http_request, :current_http_reponse
   
 end end

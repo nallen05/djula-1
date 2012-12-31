@@ -36,4 +36,8 @@ module Djula class TemplateBindingContext
     yield if @_compiled_template_folder.mockup_mode
   end
   
+  def mockup_server
+    @_compiled_template_folder.mockup_server
+  end
+  
 end end

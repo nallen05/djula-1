@@ -26,6 +26,7 @@ module Djula class TemplateFolder
 
     @asset_hash = nil
     @compiled_templates = nil
+    @mockup_server = opts[:mockup_server]
   end  
   
   def update_asset_hash(merge_in={})
@@ -51,7 +52,7 @@ module Djula class TemplateFolder
    
   # private
   
-  attr_accessor :template_directory, :mockup_mode, :recognize_template_suffix, :ignore_file_patterns, :asset_hash, :compiled_templates
+  attr_accessor :template_directory, :mockup_mode, :recognize_template_suffix, :ignore_file_patterns, :asset_hash, :compiled_templates, :mockup_server
   
   # dealing with files
   
