@@ -16,7 +16,7 @@ end
 
 
 namespace :djula do
-  desc 'Start the interactive mock up server for FOLDER (on PORT)'
+  desc 'Start the interactive mock up server for TEMPLATE_FOLDER (on PORT)'
   task :example do
     template_folder = (ENV['TEMPLATE_FOLDER'] or Dir::pwd)
     port = (ENV['PORT'] or 3001)
