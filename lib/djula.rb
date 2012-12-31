@@ -1,5 +1,5 @@
 
-require 'lib/djula/template_folder'
-require 'lib/djula/template_binding_context'
-require 'lib/djula/template'
-require 'lib/djula/server'
+require 'djula/template_folder'
+require 'djula/template_binding_context'
+require 'djula/template'
+require 'djula/server'
