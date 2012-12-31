@@ -4,13 +4,13 @@ djula
 djula is a templating infrastructure. it's goals are to make it easy to:
 
 * create interactive UI mockups
-* integrate those UI mockups into real applications
-* make sure that the codebase stays agile, even after integration with larger app
+* integrate code from the mockups into real applications
+* make sure that this UI codebase stays agile, even after integration with larger app
 
 it's approach to accomplishing the above is to add the following to ERB:
 
-* a webserver for viewing the mockups
-* ability to specify example data & routes to use when viewing interactive mockups
+* a webserver for previewing projects as interactive mockups
+* ability to specify example data & routes to use when previewing projects as interactive mockups
 * ability to run the same template code in mockups or production with no code change
 * template inheritance (based on django templating language)
 
@@ -22,40 +22,51 @@ Todo:
 DOCUMENTATION
 -------------------------
 
-...to do...
+A "djula project" consists of 2 folders:
+
+* a template folder -- containing dynamic template files (ending in .erb), mockup data (djula_mockup_data.json), and mockup routes (djula_mockup_routes.json)
+* a static folder -- containing the project's static content. for simple projects this may be the same folder as the template folder
+
+To preview a project as an interactive mockup:
+
+   template_folder = "examples/hello_world"
+   static_folder = "examples/hello_world"
+   port = 3001
+   s = Djula::Server.new template_folder, :static_folder => static_folder, :port => port
+   s.start # now point your browser to http://0.0.0.0:3001
+
+To render templates (not interactive preview/mockup):
+
+   f = Djula::TemplateFolder.new 'examples/hello_world'
+   t = f.get "/"
+   t.render
+
+In order to pass variable values to the template, give them as opts to Djula::TemplateFolder#render
+
+   f = Djula::TemplateFolder.new 'examples/example_data/simple'
+   t = f.get "/"
+   t.render :foo => 'WORLD', :bar => 2
+
+...to do: document features...
+
+* djula_extends / djula_block / djula_endblock
+* djula_include
+* djula_example_data.json
+* djula_example_routes.json
+* djula_mockup_do
 
 ...at the moment the best way to jump in is to check out the examples below:
 
-RUNNING THE EXAMPLES AS INTERACTIVE MOCKUPS
--------------------------------------------
+PREVIEWING THE EXAMPLES AS INTERACTIVE MOCKUPS
+----------------------------------------------
 
-start the server, pointing it to the example folder:
+start the server, pointing it to the example you want to run:
 
-    bundle exec rake djula:mockup_server TEMPLATE_FOLDER=examples/hello_world
+    bundle exec rake djula:example TEMPLATE_FOLDER=examples/hello_world
 
 (optional PORT argument defaults to 3001)
 
 (substitute "examples/hello_world" with any example, eg "examples/example_data/simple")
-
-then point the browser to the port you are running the server on: http://0.0.0.0:3001/
-
-if for some reason you feel like starting it from within ruby:
-
-    s = Djula::Server.new 'examples/hello_world', 
-    s.start
-
-FYI HOW TO INTEGRATE THE EXAMPLES INTO A RUBY APP
--------------------------------------------------
-
-    f = Djula::TemplateFolder.new 'examples/hello_world'
-    t = f.get "/"
-    t.render
-
-    # an example that requires arguments:
-    f = Djula::TemplateFolder.new 'examples/example_data/simple'
-    t = f.get "/"
-    t.render :foo => 'WORLD', :bar => 2
-
 
 EXAMPLES
 --------
