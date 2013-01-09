@@ -34,7 +34,7 @@ module Djula class TemplateFolder
   end
 
   def compile_templates(assets=@asset_hash, compiled={})
-    assets.each{|tn,src| compiled[tn] = Template.new(self,self.precompile_standalone_src(tn,assets)) }
+    assets.each{|tn,src| compiled[tn] = Template.new(self,tn,self.precompile_standalone_src(tn,assets)) }
     @compiled_templates = compiled
   end
   

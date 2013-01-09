@@ -54,12 +54,13 @@ module Djula class Server
           'static_folder' => @static_folder,
           'static_files' => Dir.glob("#{@static_folder}/**/*").map{|pn| pn[@static_folder.length..-1]}.sort
         }
-        resp['Content-Type'] = WEBrick::HTTPUtils.mime_type( @project_summary_page_template_key, WEBrick::HTTPUtils::DefaultMimeTypes)        
+        resp['Content-Type'] = WEBrick::HTTPUtils.mime_type( @project_summary_page_template_key, WEBrick::HTTPUtils::DefaultMimeTypes)
         resp.body = @compiled_template_folder.get(@project_summary_page_template_key).render template_vars
       
       # dynamic template
       elsif (@template = @compiled_template_folder.get(req.path))
-        resp['Content-Type'] = WEBrick::HTTPUtils.mime_type req.path, WEBrick::HTTPUtils::DefaultMimeTypes        
+        resp['Content-Type'] = WEBrick::HTTPUtils.mime_type @template.template_name[0...(0 - ".erb".length)], WEBrick::HTTPUtils::DefaultMimeTypes
+#        resp['Content-Type'] = WEBrick::HTTPUtils.mime_type req.path, WEBrick::HTTPUtils::DefaultMimeTypes
         resp.body = @template.render self.get_mockup_data_from_file_system(req.path)
 
       # static content
@@ -69,7 +70,7 @@ module Djula class Server
       # matches a route defined in djula_mockup_routes.json
       elsif (pn = self.match_route?(req.path))
         @template = @compiled_template_folder.get pn
-        resp['Content-Type'] = WEBrick::HTTPUtils.mime_type req.path, WEBrick::HTTPUtils::DefaultMimeTypes
+        resp['Content-Type'] = WEBrick::HTTPUtils.mime_type @template.template_name[0...(0 - ".erb".length)], WEBrick::HTTPUtils::DefaultMimeTypes
         resp.body = @template.render self.get_mockup_data_from_file_system(pn)
 
       # oops
